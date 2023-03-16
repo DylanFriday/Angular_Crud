@@ -1,0 +1,62 @@
+<div id="mymodal" class="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bolder">Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+        </div>
+        <form #userForm="ngForm" >
+        <div class="modal-body">
+        <!-- <span style="margin-right: 110px;">No :</span> <input name="id" class="mb-3" type="number" id="id" placeholder="Invoice number" required min="1"> <br> -->
+        <span style="margin-right: 30px;" class="text-dark fw-medium">Product Name :</span><input name="product" class="mb-3 bg-light-subtle border-0 py-2" type="text" placeholder="Enter a product name" required id="product" [(ngModel)]="product.name"> <br>
+        <span style="margin-right: 75px;" class="text-dark fw-medium">Quantity :</span><span class="btn btn-secondary mb-1" id="subtract" (click)="decrease()">-</span><input name="quantity" type="number"  class="mb-3 bg-light-subtle border-0 py-2 mt-1 w-25 text-center" required id="quantity" [value]="this.product.quantity" placeholder="Enter quantity"  [(ngModel)]="product.quantity"><span class="btn btn-secondary mb-1" id="add" (click)="increase()">+</span><br>   
+        <span style="margin-right: 97px;" class="text-dark fw-medium">Price :</span>  <input name="price" type="number" class="bg-light-subtle border-0 py-2" placeholder="Enter price" required id="price"  [(ngModel)]="product.price"> <br>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+          <button id="add" type="submit" value="button" class="btn btn-info" (click)="saveProduct(userForm)" *ngIf="product.id ==0">Submit</button>
+          <button id="add" type="button" value="button" class="btn btn-info" (click)="updateProduct()" *ngIf="product.id !==0" >Update</button>
+
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+    <div class="row">
+        <div class="col-8">
+            <input id="input" class="p-1 w-100 bg-light-subtle border border-secondary-subtle position-relative" type="text" placeholder="Search"> 
+            <img id="clearSearch" alt="" class="position-absolute mt-2 bg-secondary-subtle" style="margin-left: -25px;">
+        </div>
+        <div class="col-4 p-0 d-flex">
+            <button class="btn px-0" id="btn" style="width: 94%;background-color: #BB86FC;"><span class="fw-bold" style="padding:0px 20px;color: white;" (click)="openModal()" >Add Product+</span></button>
+        </div>
+    </div>
+    <ol class="p-0">
+        <table class="mt-2 table table-success table-striped table-hover">
+            <thead>
+                <tr class="border border-secondary-subtle w-100 bg-secondary-subtle">
+                    <th style="padding:10px;"class="px-4">No</th>
+                    <th style="padding: 10px;"class="px-5">Product Name</th>
+                    <th style="padding: 10px;"class="px-4">QTY</th>
+                    <th style="padding: 10px;"class="px-5">Price</th>
+                    <th style="padding: 10px;"class="px-5">Total</th>
+                    <th style="padding: 10px;"class="px-3">Action</th>
+                </tr>
+            </thead>
+                <tbody id="tbody" class="pad bg-light-subtle fw-medium">
+                    <tr *ngFor="let product of productArr">
+                      <td><li style="margin-left: 35px;"></li></td>
+                      <td ><span style="margin-left: 40px;">{{product.name}}</span></td>
+                      <td><span style="margin-left: 25px;">{{product.quantity}}</span></td>
+                      <td><span style="margin-left: 40px;">{{product.price}}</span></td>
+                      <td><span style="margin-left: 40px;" ngModel="totalValue">{{product.quantity * product.price}}</span></td>
+                      <td >
+                        <button type="button" class="btn btn-info btn-sm" (click)="editProduct(product)">edit</button>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="deleteProduct(product.id)">Delete</button>
+                      </td>
+                    </tr>
+                </tbody>
+        </table>
+    </ol>
+    
+
