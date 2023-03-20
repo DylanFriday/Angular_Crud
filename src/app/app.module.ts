@@ -5,26 +5,23 @@ import { AppComponent } from './app.component';
 import { PopupModalComponent } from './popup-modal/popup-modal.component';
 import { TableComponent } from './table/table.component';
 import { VoucherComponent } from './voucher/voucher.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { ProductService } from './product.service';
+import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     PopupModalComponent,
     TableComponent,
-    VoucherComponent
+    VoucherComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatDialogModule,
     FormsModule
   ],
-  providers: [ProductService],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
