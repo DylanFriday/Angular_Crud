@@ -40,6 +40,8 @@ export class TableComponent implements OnInit {
     if (modalDiv != null) {
       modalDiv.style.display = 'block'
     }
+  
+    
     this.product = {
       id: 0,
       name: '',
@@ -60,6 +62,7 @@ export class TableComponent implements OnInit {
    if(price != null){
     price.style.display = 'none'  
    }
+   
   }
 
   closeModal() {
