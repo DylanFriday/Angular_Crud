@@ -48,6 +48,18 @@ export class TableComponent implements OnInit {
       total: 0,
       SumArr : []
     }
+   const name = document.getElementById('nameValid')
+   if(name != null){
+    name.style.display = 'none'  
+   }
+   const quantity = document.getElementById('quantityValid')
+   if(quantity != null){
+    quantity.style.display = 'none'  
+   }
+   const price = document.getElementById('priceValid')
+   if(price != null){
+    price.style.display = 'none'  
+   }
   }
 
   closeModal() {
@@ -55,6 +67,13 @@ export class TableComponent implements OnInit {
     if (modalDiv != null) {
       modalDiv.style.display = 'none'
     }
+  }
+  cancelProduct(){
+    const localData = localStorage.getItem('productList')
+    if (localData != null) {
+      this.productArr = JSON.parse(localData)
+    }
+    this.closeModal();
   }
   increase() {
     this.product.quantity++
@@ -90,7 +109,6 @@ export class TableComponent implements OnInit {
     }
   }
   arrSum(priceArr: number[]) {
-    debugger
     let sum :number = 0;
     for (let i = 0; i < priceArr.length; i++) {
       sum += priceArr[i]
@@ -107,7 +125,7 @@ export class TableComponent implements OnInit {
   // }
 
   editProduct(product: any) {
-    debugger
+   
     this.openModal()
     this.product = product
   }

@@ -1,20 +1,64 @@
-<div id="mymodal" class="modal" style="margin-top: 200px;">
+<div id="mymodal" class="" style="margin-top: 200px;">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title fw-bolder">Invoice</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="cancelProduct()"></button>
         </div>
         <form #userForm="ngForm" >
         <div class="modal-body">
+
+        <div>
+        <label for="name" style="margin-right: 30px;" class="text-dark fw-medium">Product Name :</label><input class=" mb-3 bg-light-subtle py-2 border-0" type="text" placeholder="Enter a product name" name="name" id="name" [(ngModel)]="product.name" required minlength="3" maxlength="20"> <br>
+        <div class="text-danger" *ngIf="userForm.controls['name'].invalid && (userForm.controls['name'].dirty || userForm.controls['name'].touched)">
+          <div id="nameValid" *ngIf="userForm.controls['name'].errors['required']">
+            Name is required.
+          </div>
+          <div *ngIf="userForm.controls['name'].errors['minlength']">
+            Name should be at least 3 characters long.
+          </div>
+          <div *ngIf="userForm.controls['name'].errors['maxlength']">
+            Name should not exceed 20 characters.
+          </div>
+        </div>
+        </div>
+        
         <!-- <span style="margin-right: 110px;">No :</span> <input name="id" class="mb-3" type="number" id="id" placeholder="Invoice number" required min="1"> <br> -->
-        <span style="margin-right: 30px;" class="text-dark fw-medium">Product Name :</span><input  name="product" class=" mb-3 bg-light-subtle py-2 border-0" type="text" placeholder="Enter a product name" required id="product" [(ngModel)]="product.name"> <br>
-        <span style="margin-right: 75px;" class="text-dark fw-medium">Quantity :</span><span class="btn btn-secondary mb-1" id="subtract" (click)="decrease()">-</span><input name="quantity" type="number"  class="mb-3 bg-light-subtle border-0 py-2 mt-1 w-25 text-center" required id="quantity" [value]="this.product.quantity" placeholder="Enter quantity"  [(ngModel)]="product.quantity"><span class="btn btn-secondary mb-1" id="add" (click)="increase()">+</span><br>   
-        <span style="margin-right: 97px;" class="text-dark fw-medium">Price :</span>  <input name="price" type="number" class="bg-light-subtle border-0 py-2" placeholder="Enter price" required id="price"  [(ngModel)]="product.price"> <br>
+
+
+        <div>
+          <label style="margin-right: 75px;" class="text-dark fw-medium">Quantity :</label><span class="btn btn-secondary mb-1" id="subtract" (click)="decrease()">-</span><input type="number" min="1" max="10000000000" class="mb-3 bg-light-subtle border-0 py-2 mt-1 w-25 text-center" required [value]="this.product.quantity" placeholder="Enter quantity"  [(ngModel)]="product.quantity" id="quantity" name="quantity"><span class="btn btn-secondary mb-1" id="add" (click)="increase()">+</span><br>   
+          <div class="text-danger" *ngIf="userForm.controls['quantity'].invalid && (userForm.controls['quantity'].dirty || userForm.controls['quantity'].touched)">
+            <div *ngIf="userForm.controls['quantity'].errors['required']">
+              Quantity is required.
+            </div>
+            <div id="quantityValid" *ngIf="userForm.controls['quantity'].errors['min']">
+              Quantity should be greater than or equal to 1.
+            </div>
+            <div *ngIf="userForm.controls['quantity'].errors['max']">
+              Quantity should be less than or equal to 100.
+            </div>
+          </div>
+        </div>
+
+        <div >
+          <label style="margin-right: 97px;" class="text-dark fw-medium">Price :</label>  <input type="number" class="bg-light-subtle border-0 py-2" placeholder="Enter price" required [(ngModel)]="product.price" name="price" id="price" min="1"  max="100000000"><br>
+          <div class="text-danger" *ngIf="userForm.controls['price'].invalid && (userForm.controls['price'].dirty || userForm.controls['price'].touched)">
+            <div *ngIf="userForm.controls['price'].errors['required']">
+              Price is required.
+            </div>
+            <div id="priceValid" *ngIf="userForm.controls['price'].errors['min']">
+              Price should be greater than or equal to 1.
+            </div>
+            <div *ngIf="userForm.controls['price'].errors['max']">
+              Price should be less than or equal to 100000000.
+            </div>
+          </div>
+        </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
-          <button id="add" type="submit" value="button" class="btn btn-info" (click)="saveProduct(userForm)" *ngIf="product.id ==0">Submit</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="cancelProduct()">Close</button>
+          <button [disabled]="!userForm.valid" id="add" type="submit" value="button" class="btn btn-info" (click)="saveProduct(userForm)" *ngIf="product.id ==0">Submit</button>
           <button id="add" type="button" value="button" class="btn btn-info" (click)="updateProduct()" *ngIf="product.id !==0" >Update</button>
         </div>
         </form>
@@ -25,12 +69,12 @@
     <div class="col-md-12 p-2 bg-secondary-subtle">
     <div class="row ">
         <div class="col-4">
-            <input id="input" class="p-1 w-100 bg-light-subtle border border-secondary-subtle position-relative" type="text" placeholder="Search" [(ngModel)]="searchProduct"> 
+            <input id="input" class="p-1 w-100 bg-light-subtle border border-secondary-subtle position-relative" type="text" placeholder="Search" [(ngModel)]="searchProduct" style="height: 59px;"> 
             <!-- <img id="clearSearch" src="./remove.png" alt="" class="position-absolute mt-2 bg-secondary-subtle" style="margin-left: -25px;"> -->
             <!-- <img src="./remove.png" class="position-absolute mt-2" alt="" style="margin-left: -25px;"> -->
         </div>
         <div class="col-4">
-            <button class="btn px-0" id="btn" style="width: 100%;background-color: #BB86FC;"><span class="fw-bold" style="padding:0px 20px;color: white;" (click)="openModal()" >Add Product+</span></button>
+            <button (click)="openModal()" class="btn px-0" id="btn" style="width: 100%;height: 58px;background-color: #BB86FC;"><span class="fw-bold" style="padding:0px 20px;color: white;"  >Add Product+</span></button>
         </div>
         <div class="col-4">
           <div class="border border-secondary p-3 bg-secondary-subtle d-flex">
@@ -38,7 +82,6 @@
           </div>
         </div> 
     </div>
-      
           <ol class="p-0">
             <table class="mt-2 table table-success table-striped table-hover">
                 <thead>
@@ -71,7 +114,7 @@
           <div class="border border-secondary p-3 w-75 bg-secondary-subtle d-flex">
             <span class="fw-bolder">Total</span><span id="result" class="fw-bold ms-auto">{{totalValue | number}}</span>
           </div>
-        </div>     -->
+        </div>-->
       </div>
     
     
